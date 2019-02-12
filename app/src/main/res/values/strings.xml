@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WeatherMVP</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_places">Places</string>
+    <string name="title_other">Other</string>
 </resources>
