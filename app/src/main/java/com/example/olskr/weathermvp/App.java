@@ -12,10 +12,6 @@ public class App extends Application {
     private static App instance;
     private AppComponent appComponent;
 
-    public static App getInstance() {
-        return instance;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,6 +23,10 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+    }
+
+    public static App getInstance() {
+        return instance;
     }
 
     public AppComponent getAppComponent() {
