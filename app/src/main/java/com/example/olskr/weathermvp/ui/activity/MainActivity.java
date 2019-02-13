@@ -92,9 +92,11 @@ public class MainActivity extends MvpAppCompatActivity implements ActivityView {
         }
     };
 
-    private void addFragment(String arg) {
-        Command[] commands = {new Replace(new Screens.MainScreen(arg))};
-        navigator.applyCommands(commands);
+    @ProvidePresenter
+    public ActivityPresenter provideMainPresenter() {
+        ActivityPresenter presenter = new ActivityPresenter(AndroidSchedulers.mainThread());
+        App.getInstance().getAppComponent().inject(presenter);
+        return presenter;
     }
 
     @Override
@@ -109,25 +111,9 @@ public class MainActivity extends MvpAppCompatActivity implements ActivityView {
         navigatorHolder.removeNavigator();
     }
 
-    @ProvidePresenter
-    public ActivityPresenter provideMainPresenter() {
-        ActivityPresenter presenter = new ActivityPresenter(AndroidSchedulers.mainThread());
-        App.getInstance().getAppComponent().inject(presenter);
-        return presenter;
-    }
-
     @Override
-    public void goToHome() {
-        addFragment("Home");
-    }
-
-    @Override
-    public void goToPlaces() {
-        addFragment("Places");
-    }
-
-    @Override
-    public void goToOther() {
-        addFragment("Other");
+    public void onBackPressed() {
+        navigation.setSelectedItemId(R.id.navigation_home);
+        activityPresenter.onBackPressed();
     }
 }
