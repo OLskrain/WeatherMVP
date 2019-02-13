@@ -1,5 +1,6 @@
 package com.example.olskr.weathermvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -77,16 +78,11 @@ public class MainActivity extends MvpAppCompatActivity implements ActivityView {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    activityPresenter.goToHome();
-                    return true;
-                case R.id.navigation_dashboard:
-                    activityPresenter.goToPlaces();
-                    return true;
-                case R.id.navigation_notifications:
-                    activityPresenter.goToOther();
-                    return true;
+            if (item.getItemId() == R.id.navigation_home ||
+                    item.getItemId() == R.id.navigation_dashboard ||
+                    item.getItemId() == R.id.navigation_notifications) {
+                activityPresenter.goToFragment(item.toString());
+                return true;
             }
             return false;
         }
@@ -113,7 +109,19 @@ public class MainActivity extends MvpAppCompatActivity implements ActivityView {
 
     @Override
     public void onBackPressed() {
-        navigation.setSelectedItemId(R.id.navigation_home);
-        activityPresenter.onBackPressed();
+        if (navigation.getSelectedItemId() != R.id.navigation_home) {
+            String navHome = "" + R.id.navigation_home;
+            navigation.setSelectedItemId(R.id.navigation_home);
+            activityPresenter.onBackPressed(navHome);
+        } else {
+            activityPresenter.backHome();
+        }
+    }
+
+    public void backHome() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

@@ -22,19 +22,15 @@ public class ActivityPresenter extends MvpPresenter<ActivityView> {
         this.mainThreadScheduler = scheduler;
     }
 
-    public void goToHome() {
-        router.navigateTo(new Screens.MainScreen("Home"));
+    public void goToFragment(String arg) {
+        router.navigateTo(new Screens.MainScreen(arg));
     }
 
-    public void goToPlaces() {
-        router.navigateTo(new Screens.MainScreen("Places"));
+    public void onBackPressed(String arg) {
+        router.newRootChain(new Screens.MainScreen(arg));
     }
 
-    public void goToOther() {
-        router.navigateTo(new Screens.MainScreen("Other"));
-    }
-
-    public void onBackPressed() {
-        router.newRootChain(new Screens.MainScreen("Home"));
+    public void backHome() {
+        getViewState().backHome();
     }
 }

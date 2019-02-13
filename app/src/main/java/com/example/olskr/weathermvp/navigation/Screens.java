@@ -11,6 +11,10 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen;
 public class Screens {
 
     public static class MainScreen extends SupportAppScreen {
+        private static final String HOME = "Home";
+        private static final String PLACES = "Places";
+        private static final String OTHER = "Other";
+
         String arg;
 
         public MainScreen(String arg) {
@@ -20,11 +24,11 @@ public class Screens {
         @Override
         public Fragment getFragment() {
             switch (arg) {
-                case "Home":
+                case HOME:
                     return HomeFragment.getInstance(arg);
-                case "Places":
+                case PLACES:
                     return PlacesFragment.getInstance(arg);
-                case "Other":
+                case OTHER:
                     return OtherFragment.getInstance(arg);
             }
             return HomeFragment.getInstance(arg);
