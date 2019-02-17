@@ -1,14 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context="ui.fragment.HomeFragment"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HOME" />
+    <RelativeLayout
+        android:id="@+id/element1"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/city_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="город"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/updated_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/city_field"
+            android:layout_centerHorizontal="true"
+            android:text="обновлено"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/updated_font_size" />
+
+        <TextView
+            android:id="@+id/weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/updated_field"
+            android:layout_marginTop="@dimen/activity_vertical_margin2"
+            android:text="икон"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/icon_front_size" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/weather_icon"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/default_padding">
+
+            <TextView
+                android:id="@+id/current_temperature_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:layout_marginTop="@dimen/default_padding"
+                android:text="температура"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/temperature_font_size" />
+
+            <TextView
+                android:id="@+id/details_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:text="детали"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="статус"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/updated_font_size" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
+

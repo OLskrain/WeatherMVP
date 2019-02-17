@@ -3,4 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Все размеры ниже для справки* -->
+    <color name="blue">#0cebef</color>
+    <color name="colorText">#8fffffff</color>
+    <color name="background">#eb595959</color>
+    <color name="white">#ebffffff</color>
+    <color name="green">#82e684</color>
+    <color name="side_nav_bar_centre">#212121</color>
+    <color name="side_nav_bar_start">#607D8B</color>
+    <color name="side_nav_bar_end">#455A64</color>
+    <!-- Все размеры ниже для справки* -->
 </resources>

@@ -16,6 +16,7 @@ import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
@@ -45,7 +46,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     public HomePresenter provideHomePresenter() {
         String arg = getArguments().getString("arg");
 
-        HomePresenter homePresenter = new HomePresenter();
+        HomePresenter homePresenter = new HomePresenter(AndroidSchedulers.mainThread());
         App.getInstance().getAppComponent().inject(homePresenter); //подключили презентер через Dagger
         return homePresenter;
     }

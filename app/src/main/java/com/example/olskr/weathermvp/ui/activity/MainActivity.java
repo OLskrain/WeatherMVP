@@ -30,8 +30,6 @@ import ru.terrakok.cicerone.commands.Replace;
 
 public class MainActivity extends MvpAppCompatActivity implements ActivityView {
 
-    @BindView(R.id.message)
-    TextView mTextMessage;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
 

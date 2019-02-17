@@ -1,6 +1,7 @@
 package com.example.olskr.weathermvp.di;
 
 
+import com.example.olskr.weathermvp.di.modules.ApiModule;
 import com.example.olskr.weathermvp.di.modules.AppModule;
 import com.example.olskr.weathermvp.di.modules.CiceroneModule;
 import com.example.olskr.weathermvp.mvp.presenter.ActivityPresenter;
@@ -17,6 +18,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         AppModule.class,
+        ApiModule.class,
         CiceroneModule.class
 })
 
