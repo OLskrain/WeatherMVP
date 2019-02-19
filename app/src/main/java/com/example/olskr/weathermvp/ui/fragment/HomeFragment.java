@@ -34,6 +34,12 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     @BindView(R.id.city_field)
     TextView cityName;
+    @BindView(R.id.details_field)
+    TextView details;
+    @BindView(R.id.current_temperature_field)
+    TextView tempC;
+    @BindView(R.id.status)
+    TextView status;
     @BindView(R.id.pb_loading)
     ProgressBar loadingProgressBar;
 
@@ -65,12 +71,22 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     @Override
     public void showError(String message) {
-
+        status.setText(message); //TODO: обрабатывать ошибки не в ручную а чрез ответы от сервера
     }
 
     @Override
     public void setCityName(String cityName) {
-        //cityName.setText("London");
+        this.cityName.setText(cityName);
+    }
+
+    @Override
+    public void setTempC(String tempC) {
+        this.tempC.setText(tempC);
+    }
+
+    @Override
+    public void setConditionWeather(String conditionWeather) {
+        details.setText(conditionWeather);
     }
 
     @Override

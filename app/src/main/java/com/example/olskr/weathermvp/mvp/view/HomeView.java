@@ -12,6 +12,10 @@ public interface HomeView extends MvpView {
 
     void setCityName(String cityName);
 
+    void setTempC(String tempC);
+
+    void setConditionWeather(String conditionWeather);
+
     void showLoading();
 
     void hideLoading();
