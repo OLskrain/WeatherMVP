@@ -1,4 +1,4 @@
-package com.example.olskr.weathermvp.mvp.model.entity;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -67,6 +67,11 @@ public class Current {
     @SerializedName("uv")
     @Expose
     private Double uv;
+
+    public Current(Double tempC, Condition condition) {
+        this.tempC = tempC;
+        this.condition = condition;
+    }
 
     public Integer getLastUpdatedEpoch() {
         return lastUpdatedEpoch;

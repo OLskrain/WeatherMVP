@@ -19,18 +19,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    @Named("baseUrlProd") //поможет определить какой URL на нужен (12)
-    @Provides //чтобы дагер понял, что это функция что то нам предоставляет пишем @Provides
-    public String baseUrlProduction(){
-        return "https://api.github.com/";
-    }
-
-    @Named("baseUrlDev")
+    @Named("baseUrlProd")
     @Provides
-    public String baseUrlDev(){
-        return "https://api.github.com/"; //Different from baseUrlProduction
+    public String baseUrlProduction() {
+        return "https://api.apixu.com/v1/";
     }
-
 
     @Provides
     public OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor){
@@ -51,8 +44,7 @@ public class ApiModule {
     }
 
     @Provides
-    //при создании Dagger сам поймет, что если нужен Gson и у него он есть то сам отправит в (1)
-    public Gson gson(){ //выташили, чтобы можно было менять конфигурацию
+    public Gson gson() {
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
     }
 

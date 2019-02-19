@@ -2,12 +2,9 @@ package com.example.olskr.weathermvp.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.olskr.weathermvp.mvp.model.api.ApiHolder;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 
 import io.reactivex.Scheduler;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 @InjectViewState
 public class HomePresenter extends MvpPresenter<HomeView> {
@@ -22,14 +19,10 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        loadInfo(API_KEY, "London", "ru");
+    }
 
-        ApiHolder.getInstance().getApi().getCurrentWeather(API_KEY, "London", "ru")
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThreadScheduler)
-                .subscribe(example -> {
-                    Timber.d("обновил " + example.getLocation().getCountry());
-                    Timber.d("температура " + example.getCurrent().getTempC());
-                    Timber.d("значение погоды " + example.getCurrent().getCondition().getText());
-                });
+    private void loadInfo(String apiKey, String cityName, String lang) {
+        getViewState().showLoading();
     }
 }

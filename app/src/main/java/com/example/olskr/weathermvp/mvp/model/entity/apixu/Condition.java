@@ -1,4 +1,4 @@
-package com.example.olskr.weathermvp.mvp.model.entity;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,6 +14,10 @@ import com.google.gson.annotations.SerializedName;
         @SerializedName("code")
         @Expose
         private Integer code;
+
+        public Condition(String text) {
+            this.text = text;
+        }
 
         public String getText() {
             return text;

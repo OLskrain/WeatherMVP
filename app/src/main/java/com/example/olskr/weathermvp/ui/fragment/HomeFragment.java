@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -15,14 +17,12 @@ import com.example.olskr.weathermvp.R;
 import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
-
-    @InjectPresenter
-    HomePresenter homePresenter;
 
     public static HomeFragment getInstance(String arg) {
         HomeFragment fragment = new HomeFragment();
@@ -32,11 +32,18 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return fragment;
     }
 
+    @BindView(R.id.city_field)
+    TextView cityName;
+    @BindView(R.id.pb_loading)
+    ProgressBar loadingProgressBar;
+
+    @InjectPresenter
+    HomePresenter homePresenter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
-
         ButterKnife.bind(this, view);
         return view;
     }
@@ -49,5 +56,30 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         HomePresenter homePresenter = new HomePresenter(AndroidSchedulers.mainThread());
         App.getInstance().getAppComponent().inject(homePresenter); //подключили презентер через Dagger
         return homePresenter;
+    }
+
+    @Override
+    public void showIcon(String IconUrl) {
+        //ToDo: заменить текст на иконку
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public void setCityName(String cityName) {
+        //cityName.setText("London");
+    }
+
+    @Override
+    public void showLoading() {
+        loadingProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingProgressBar.setVisibility(View.GONE);
     }
 }

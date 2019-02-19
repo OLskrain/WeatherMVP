@@ -1,15 +1,20 @@
-package com.example.olskr.weathermvp.mvp.model.entity;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Example {
+public class CurrentWeather {
     @SerializedName("location")
     @Expose
     private Location location;
     @SerializedName("current")
     @Expose
     private Current current;
+
+    public CurrentWeather(Location location, Current current) {
+        this.location = location;
+        this.current = current;
+    }
 
     public Location getLocation() {
         return location;

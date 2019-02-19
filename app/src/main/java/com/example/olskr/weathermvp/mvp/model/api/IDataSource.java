@@ -1,7 +1,7 @@
 package com.example.olskr.weathermvp.mvp.model.api;
 
 
-import com.example.olskr.weathermvp.mvp.model.entity.Example;
+import com.example.olskr.weathermvp.mvp.model.entity.apixu.CurrentWeather;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface IDataSource {
     @GET("current.json")
-    Single<Example> getCurrentWeather (@Query("key") String apiKey, @Query("q") String cityName, @Query("lang") String apiLang); //запрос будет возврашать singl c user-ом
+    Single<CurrentWeather> getCurrentWeather(@Query("key") String apiKey, @Query("q") String cityName, @Query("lang") String apiLang); //запрос будет возврашать singl c user-ом
 
 //    @GET("users/{user}/repos")
 //    Single<List<Repository>> getUserRepos(@Path("user") String userName);

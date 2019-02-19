@@ -1,4 +1,4 @@
-package com.example.olskr.weathermvp.mvp.model.entity;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -28,6 +28,10 @@ public class Location {
     @SerializedName("localtime")
     @Expose
     private String localtime;
+
+    public Location(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

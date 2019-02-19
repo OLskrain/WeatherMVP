@@ -3,7 +3,9 @@ package com.example.olskr.weathermvp.di;
 
 import com.example.olskr.weathermvp.di.modules.ApiModule;
 import com.example.olskr.weathermvp.di.modules.AppModule;
+import com.example.olskr.weathermvp.di.modules.CacheModule;
 import com.example.olskr.weathermvp.di.modules.CiceroneModule;
+import com.example.olskr.weathermvp.di.modules.RepoModule;
 import com.example.olskr.weathermvp.mvp.presenter.ActivityPresenter;
 import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.presenter.OtherPresenter;
@@ -19,6 +21,8 @@ import dagger.Component;
 @Component(modules = {
         AppModule.class,
         ApiModule.class,
+        CacheModule.class,
+        RepoModule.class,
         CiceroneModule.class
 })
 
