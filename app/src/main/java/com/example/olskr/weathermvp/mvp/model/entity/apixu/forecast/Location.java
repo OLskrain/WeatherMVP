@@ -1,9 +1,10 @@
-package com.example.olskr.weathermvp.mvp.model.entity.apixu;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Location {
+
     @SerializedName("name")
     @Expose
     private String name;
@@ -96,4 +97,5 @@ public class Location {
     public void setLocaltime(String localtime) {
         this.localtime = localtime;
     }
+
 }

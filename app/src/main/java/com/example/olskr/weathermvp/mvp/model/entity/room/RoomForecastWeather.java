@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity
-public class RoomCurrentWeather {
+public class RoomForecastWeather {
 
     @NonNull
     @PrimaryKey
@@ -13,10 +13,10 @@ public class RoomCurrentWeather {
     private Double tempC;
     private String conditionWeather;
 
-    public RoomCurrentWeather() {
+    public RoomForecastWeather() {
     }
 
-    public RoomCurrentWeather(@NonNull String country, Double tempC, String conditionWeather) {
+    public RoomForecastWeather(@NonNull String country, Double tempC, String conditionWeather) {
         this.cityName = country;
         this.tempC = tempC;
         this.conditionWeather = conditionWeather;

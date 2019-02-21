@@ -5,7 +5,7 @@ import android.app.Application;
 import com.example.olskr.weathermvp.di.AppComponent;
 import com.example.olskr.weathermvp.di.DaggerAppComponent;
 import com.example.olskr.weathermvp.di.modules.AppModule;
-import com.example.olskr.weathermvp.mvp.model.entity.room.db.CurrentWeatherDatabase;
+import com.example.olskr.weathermvp.mvp.model.entity.room.db.ForecastWeatherDatabase;
 
 import io.realm.Realm;
 import timber.log.Timber;
@@ -22,7 +22,7 @@ public class App extends Application {
 
         Timber.plant(new Timber.DebugTree());
         Realm.init(this);
-        CurrentWeatherDatabase.create(this); //вызываем создание базы Room
+        ForecastWeatherDatabase.create(this); //вызываем создание базы Room
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))

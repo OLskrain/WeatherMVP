@@ -1,19 +1,25 @@
-package com.example.olskr.weathermvp.mvp.model.entity.apixu;
+package com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CurrentWeather {
+public class ForecastWeather {
+
     @SerializedName("location")
     @Expose
     private Location location;
     @SerializedName("current")
     @Expose
     private Current current;
+    @SerializedName("forecast")
+    @Expose
+    private Forecast forecast;
 
-    public CurrentWeather(Location location, Current current) {
+    
+    public ForecastWeather(Location location, Current current) {
         this.location = location;
         this.current = current;
+        this.forecast = forecast;
     }
 
     public Location getLocation() {
@@ -31,4 +37,13 @@ public class CurrentWeather {
     public void setCurrent(Current current) {
         this.current = current;
     }
+
+    public Forecast getForecast() {
+        return forecast;
+    }
+
+    public void setForecast(Forecast forecast) {
+        this.forecast = forecast;
+    }
+
 }

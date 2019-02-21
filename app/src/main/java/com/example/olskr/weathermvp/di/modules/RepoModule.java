@@ -2,7 +2,7 @@ package com.example.olskr.weathermvp.di.modules;
 
 import com.example.olskr.weathermvp.mvp.model.api.IDataSource;
 import com.example.olskr.weathermvp.mvp.model.cache.ICache;
-import com.example.olskr.weathermvp.mvp.model.repo.CurrentWeatherRepo;
+import com.example.olskr.weathermvp.mvp.model.repo.ForecastWeatherRepo;
 
 import javax.inject.Singleton;
 
@@ -16,8 +16,8 @@ public class RepoModule {
     @Provides
     //здесь нам нужен ICache. и внутри Dagger мы его можем получить без @Inject, так как мы добавили в
     //AppComponent соответствующий модуль CacheModule. В других местах (вне Dagger) нам нажно прописывать аннотацию
-    public CurrentWeatherRepo usersRepo(ICache cache, IDataSource dataSource) {
-        return new CurrentWeatherRepo(cache, dataSource);
+    public ForecastWeatherRepo usersRepo(ICache cache, IDataSource dataSource) {
+        return new ForecastWeatherRepo(cache, dataSource);
     }
 
 }

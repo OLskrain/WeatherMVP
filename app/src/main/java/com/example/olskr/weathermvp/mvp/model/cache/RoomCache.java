@@ -1,54 +1,55 @@
 package com.example.olskr.weathermvp.mvp.model.cache;
 
-import com.example.olskr.weathermvp.mvp.model.entity.apixu.Condition;
-import com.example.olskr.weathermvp.mvp.model.entity.apixu.Current;
-import com.example.olskr.weathermvp.mvp.model.entity.apixu.CurrentWeather;
-import com.example.olskr.weathermvp.mvp.model.entity.apixu.Location;
-import com.example.olskr.weathermvp.mvp.model.entity.room.RoomCurrentWeather;
-import com.example.olskr.weathermvp.mvp.model.entity.room.db.CurrentWeatherDatabase;
+
+import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Condition;
+import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Current;
+import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastWeather;
+import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Location;
+import com.example.olskr.weathermvp.mvp.model.entity.room.RoomForecastWeather;
+import com.example.olskr.weathermvp.mvp.model.entity.room.db.ForecastWeatherDatabase;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 public class RoomCache implements ICache { //Рум кеш для данных из сети
     @Override
-    public void putCurrentWeather(CurrentWeather currentWeather) {
-        RoomCurrentWeather roomCurrentWeather = CurrentWeatherDatabase.getInstance().getCurrentWeatherDao()//узнаем есть ли там наш узер
-                .findByCityName(currentWeather.getLocation().getName());
+    public void putForecastWeather(ForecastWeather forecastWeather) {
+        RoomForecastWeather roomForecastWeather = ForecastWeatherDatabase.getInstance().getForecastWeather()//узнаем есть ли там наш узер
+                .findByCityName(forecastWeather.getLocation().getName());
 
-        if (roomCurrentWeather == null) {
-            roomCurrentWeather = new RoomCurrentWeather();
-            roomCurrentWeather.setCityName(currentWeather.getLocation().getName());
+        if (roomForecastWeather == null) {
+            roomForecastWeather = new RoomForecastWeather();
+            roomForecastWeather.setCityName(forecastWeather.getLocation().getName());
         }
 
-        roomCurrentWeather.setTempC(currentWeather.getCurrent().getTempC()); //обновляем температуру
-        roomCurrentWeather.setConditionWeather(currentWeather.getCurrent().getCondition().getText());
-        //roomCurrentWeather.setReposUrl(user.getReposUrl()); //обновляем репозиторйи
+        roomForecastWeather.setTempC(forecastWeather.getCurrent().getTempC()); //обновляем температуру
+        roomForecastWeather.setConditionWeather(forecastWeather.getCurrent().getCondition().getText());
+        //roomForecastWeather.setReposUrl(user.getReposUrl()); //обновляем репозиторйи
 
-        CurrentWeatherDatabase.getInstance().getCurrentWeatherDao()
-                .insert(roomCurrentWeather); //сохранили юзера в кеш
+        ForecastWeatherDatabase.getInstance().getForecastWeather()
+                .insert(roomForecastWeather); //сохранили юзера в кеш
     }
 
     @Override
-    public Single<CurrentWeather> getCurrentWeather(String cityName) { //если нет сети , то пытаемся прочитать из кеша
+    public Single<ForecastWeather> getForecastWeather(String cityName) { //если нет сети , то пытаемся прочитать из кеша
         return Single.create(emitter -> {
-            RoomCurrentWeather roomCurrentWeather = CurrentWeatherDatabase.getInstance().getCurrentWeatherDao()
+            RoomForecastWeather roomForecastWeather = ForecastWeatherDatabase.getInstance().getForecastWeather()
                     .findByCityName(cityName);
 
-            if (roomCurrentWeather == null) { //если пользователя нет в кеше
+            if (roomForecastWeather == null) { //если пользователя нет в кеше
                 emitter.onError(new RuntimeException("No such user in cache")); //кидаем ошибку
             } else { //если он есть в кеше. то делаем  юзера, наполняя его из roomUsera - т.е из кеша
-                emitter.onSuccess(new CurrentWeather(new Location(roomCurrentWeather.getCityName())
-                        , new Current(roomCurrentWeather.getTempC(), new Condition(roomCurrentWeather.getConditionWeather()))));
+                emitter.onSuccess(new ForecastWeather(new Location(roomForecastWeather.getCityName())
+                        , new Current(roomForecastWeather.getTempC(), new Condition(roomForecastWeather.getConditionWeather()))));
             }
-        }).subscribeOn(Schedulers.io()).cast(CurrentWeather.class);
+        }).subscribeOn(Schedulers.io()).cast(ForecastWeather.class);
     }
 
 //    @Override
 //    public void putUserRepos(User user, List<Repository> repos) { //тоже самое для репозитория
 //        //(1)
 //        //если вдруг к нам пришел репозиторий а user мы не знаем , то создаем его
-//        RoomUser roomUser = CurrentWeatherDatabase.getInstance().getUserDao()
+//        RoomUser roomUser = ForecastWeatherDatabase.getInstance().getUserDao()
 //                .findByLogin(user.getCityName());
 //
 //        //(2)
@@ -57,7 +58,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
 //            roomUser.setCityName(user.getCityName());
 //            roomUser.setTempC(user.getTempC());
 //            roomUser.setConditionWeather(user.getConditionWeather());
-//            CurrentWeatherDatabase.getInstance()
+//            ForecastWeatherDatabase.getInstance()
 //                    .getUserDao()
 //                    .insert(roomUser);
 //        }//создали пользователя из того что пришло User user и записали его
@@ -70,7 +71,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
 //                roomRepositories.add(roomRepository); //составляем репозитории
 //            }
 ////сохраняем репозитории в кеш
-//            CurrentWeatherDatabase.getInstance()
+//            ForecastWeatherDatabase.getInstance()
 //                    .getRepositoryDao()
 //                    .insert(roomRepositories);
 //        }
@@ -79,7 +80,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
 //    @Override
 //    public Single<List<Repository>> getUserRepos(User user) { //если нет сети, то читаем из кеша
 //        return Single.create(emitter -> {
-//            RoomUser roomUser = CurrentWeatherDatabase.getInstance() //проверяем есть ли пользователь
+//            RoomUser roomUser = ForecastWeatherDatabase.getInstance() //проверяем есть ли пользователь
 //                    .getUserDao()
 //                    .findByLogin(user.getCityName());
 //
@@ -87,7 +88,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
 //                emitter.onError(new RuntimeException("No such user in cache"));
 //            } else {
 //                //если пользователь есть, то получаем все его репозитории
-//                List<RoomRepository> roomRepositories = CurrentWeatherDatabase.getInstance().getRepositoryDao()
+//                List<RoomRepository> roomRepositories = ForecastWeatherDatabase.getInstance().getRepositoryDao()
 //                        .getAll();
 //
 //                List<Repository> repos = new ArrayList<>();

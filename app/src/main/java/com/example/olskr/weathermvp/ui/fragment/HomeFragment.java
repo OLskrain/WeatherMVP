@@ -3,6 +3,9 @@ package com.example.olskr.weathermvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import com.example.olskr.weathermvp.App;
 import com.example.olskr.weathermvp.R;
 import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
+import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,16 +46,30 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     TextView status;
     @BindView(R.id.pb_loading)
     ProgressBar loadingProgressBar;
+    @BindView(R.id.rv_forecast)
+    RecyclerView forecastRecyclerView;
 
     @InjectPresenter
     HomePresenter homePresenter;
+
+    ForecastRVAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.bind(this, view);
+        initUi();
         return view;
+    }
+
+    @Override
+    public void initUi() {
+        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
+        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
+        forecastRecyclerView.setAdapter(adapter);
     }
 
     @ProvidePresenter
