@@ -1,34 +1,15 @@
 <resources>
-    <!-- Все размеры ниже для справки* -->
-    <dimen name="activity_horizontal_margin1">16dp</dimen>
-    <dimen name="activity_vertical_margin1">16dp</dimen>
-
-    <dimen name="default_padding">16sp</dimen>
-    <dimen name="padding_18dp">18sp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin_standard">16dp</dimen>
-    <dimen name="activity_vertical_margin_standard">16dp</dimen>
-    <dimen name="activity_horizontal_margin2">8dp</dimen>
-    <dimen name="activity_vertical_margin2">8dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_size_60">60sp</dimen>
-    <dimen name="text_size_30">30sp</dimen>
-    <dimen name="text_size_20">20sp</dimen>
-    <dimen name="text_size_18">18sp</dimen>
-    <dimen name="card_margin">5dp</dimen>
+<!-- размер для карточки-->
     <dimen name="card_album_radius">15dp</dimen>
     <dimen name="album_cover_height">200dp</dimen>
+
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="card_margin">5dp</dimen>
     <dimen name="elevation">3dp</dimen>
+<!-- размер для карточки-->
 
-    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
-         https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="navigation_drawer_width">240dp</dimen>
-
-    <dimen name="icon_front_size">130sp</dimen>
-    <dimen name="updated_font_size">13sp</dimen>
-    <dimen name="temperature_font_size">40sp</dimen>
-    <!-- все до сюда для справки* -->
-
+    <!--размеры для активити -->
+    <dimen name="app_bar_height">350dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <!--размеры для активити -->
 </resources>

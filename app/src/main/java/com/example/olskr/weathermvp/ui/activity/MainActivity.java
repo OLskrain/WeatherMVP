@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -77,8 +79,8 @@ public class MainActivity extends MvpAppCompatActivity implements ActivityView {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if (item.getItemId() == R.id.navigation_home ||
-                    item.getItemId() == R.id.navigation_dashboard ||
-                    item.getItemId() == R.id.navigation_notifications) {
+                    item.getItemId() == R.id.navigation_places ||
+                    item.getItemId() == R.id.navigation_other) {
                 activityPresenter.goToFragment(item.toString());
                 return true;
             }

@@ -3,6 +3,8 @@ package com.example.olskr.weathermvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,16 @@ import com.example.olskr.weathermvp.R;
 import com.example.olskr.weathermvp.mvp.presenter.PlacesPresenter;
 import com.example.olskr.weathermvp.mvp.view.PlacesView;
 
+import java.util.Objects;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class PlacesFragment extends MvpAppCompatFragment implements PlacesView {
 
+    @BindView(R.id.toolbar_pf)
+    Toolbar toolbarPlaces;
     @InjectPresenter
     PlacesPresenter placesPresenter;
 
@@ -35,8 +42,12 @@ public class PlacesFragment extends MvpAppCompatFragment implements PlacesView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, null);
-
         ButterKnife.bind(this, view);
+
+        if (toolbarPlaces != null){
+            ((AppCompatActivity)Objects.requireNonNull(getActivity())).setSupportActionBar(toolbarPlaces);
+        }
+
         return view;
     }
 

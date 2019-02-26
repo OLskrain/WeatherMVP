@@ -1,101 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ui.fragment.HomeFragment">
+
+<android.support.design.widget.AppBarLayout
+    android:id="@+id/app_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ui.fragment.HomeFragment"
-    android:orientation="vertical">
+    android:layout_height="@dimen/app_bar_height"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.AppBarOverlay">
 
-    <RelativeLayout
-        android:id="@+id/element1"
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:expandedTitleGravity="top|center"
+        app:collapsedTitleGravity="left"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+        app:title="London"
+        app:toolbarId="@+id/toolbar_hf">
 
-        <TextView
-            android:id="@+id/city_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="город"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/updated_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/city_field"
-            android:layout_centerHorizontal="true"
-            android:text="обновлено"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="@dimen/updated_font_size" />
-
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/city_field"
-            android:layout_centerInParent="true"
-            android:elevation="2dp" />
-
-        <TextView
-            android:id="@+id/icon_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/updated_field"
-            android:layout_marginTop="@dimen/activity_vertical_margin2"
-            android:text="икон"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="@dimen/icon_front_size" />
-
-
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/icon_weather"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/default_padding">
+            android:background="@android:color/holo_blue_dark">
 
-            <TextView
-                android:id="@+id/current_temperature_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginEnd="@dimen/default_padding"
-                android:layout_marginTop="@dimen/default_padding"
-                android:text="температура"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/temperature_font_size" />
+        </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/details_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginEnd="@dimen/default_padding"
-                android:text="детали"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_hf"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="статус"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="@dimen/updated_font_size" />
+    </android.support.design.widget.CollapsingToolbarLayout>
+</android.support.design.widget.AppBarLayout>
 
-    </RelativeLayout>
+<!--<include layout="@layout/content_scrolling" />-->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_forecast"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-</LinearLayout>
-
+</android.support.design.widget.CoordinatorLayout>

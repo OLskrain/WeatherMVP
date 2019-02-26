@@ -3,14 +3,14 @@ package com.example.olskr.weathermvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -21,9 +21,12 @@ import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
@@ -36,18 +39,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return fragment;
     }
 
-    @BindView(R.id.city_field)
-    TextView cityName;
-    @BindView(R.id.details_field)
-    TextView details;
-    @BindView(R.id.current_temperature_field)
-    TextView tempC;
-    @BindView(R.id.status)
-    TextView status;
-    @BindView(R.id.pb_loading)
-    ProgressBar loadingProgressBar;
-    @BindView(R.id.rv_forecast)
-    RecyclerView forecastRecyclerView;
+    @BindView(R.id.toolbar_hf) Toolbar toolbarHome;
 
     @InjectPresenter
     HomePresenter homePresenter;
@@ -58,18 +50,45 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
+
         initUi();
         return view;
     }
 
     @Override
     public void initUi() {
-        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        if (toolbarHome != null){
+            ((AppCompatActivity)Objects.requireNonNull(getActivity())).setSupportActionBar(toolbarHome);
+        }
 
-        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
-        forecastRecyclerView.setAdapter(adapter);
+//        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//
+//        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
+//        forecastRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Objects.requireNonNull(getActivity()).getMenuInflater().inflate(R.menu.menu_home_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings2) {
+            Timber.d("MyMenu");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @ProvidePresenter
@@ -82,6 +101,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return homePresenter;
     }
 
+
     @Override
     public void showIcon(String IconUrl) {
         //ToDo: заменить текст на иконку
@@ -89,31 +109,31 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     @Override
     public void showError(String message) {
-        status.setText(message); //TODO: обрабатывать ошибки не в ручную а чрез ответы от сервера
+        //status.setText(message); //TODO: обрабатывать ошибки не в ручную а чрез ответы от сервера
     }
 
     @Override
     public void setCityName(String cityName) {
-        this.cityName.setText(cityName);
+        //this.cityName.setText(cityName);
     }
 
     @Override
     public void setTempC(String tempC) {
-        this.tempC.setText(tempC);
+        //this.tempC.setText(tempC);
     }
 
     @Override
     public void setConditionWeather(String conditionWeather) {
-        details.setText(conditionWeather);
+        //details.setText(conditionWeather);
     }
 
     @Override
     public void showLoading() {
-        loadingProgressBar.setVisibility(View.VISIBLE);
+        //loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        loadingProgressBar.setVisibility(View.GONE);
+        //loadingProgressBar.setVisibility(View.GONE);
     }
 }
