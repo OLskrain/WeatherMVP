@@ -39,7 +39,8 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return fragment;
     }
 
-    @BindView(R.id.toolbar_hf) Toolbar toolbarHome;
+    @BindView(R.id.toolbar_hf)
+    Toolbar toolbarHome;
 
     @InjectPresenter
     HomePresenter homePresenter;
@@ -59,8 +60,8 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     @Override
     public void initUi() {
-        if (toolbarHome != null){
-            ((AppCompatActivity)Objects.requireNonNull(getActivity())).setSupportActionBar(toolbarHome);
+        if (toolbarHome != null) {
+            ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbarHome);
         }
 
 //        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,17 +79,13 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings2) {
-            Timber.d("MyMenu");
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //TODO: здесь должен быть переход на activity с настроками
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @ProvidePresenter

@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.olskr.lesson5scroll.ScrollingActivity">
     <item
-        android:id="@+id/action_settings2"
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Home2"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title=""
         app:showAsAction="always" />
 </menu>
