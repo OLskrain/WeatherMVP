@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Forecast;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastDay;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastWeather;
 import com.example.olskr.weathermvp.mvp.model.repo.ForecastWeatherRepo;
 import com.example.olskr.weathermvp.mvp.presenter.list.IForecastListPresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 import com.example.olskr.weathermvp.mvp.view.item.ForecastItemView;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import javax.inject.Inject;
 
@@ -33,7 +36,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         public void bindView(ForecastItemView view) {
             //здесь вся лоика
             //Repository repository = user.getRepos().get(view.getPos());  //код , который наполняет строку
-            ForecastDay forecastDay = forecastWeather.getForecast().getForecastday().get(view.getPos());
+            ForecastDay forecastDay = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
 
             view.setTitle(forecastDay.getDate());
 
@@ -42,7 +45,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         @Override
         public int getForecastCount() {
            // return user == null || user.getRepos() == null ? 0 : user.getRepos().size();
-            return forecastWeather == null ? 0 : forecastWeather.getForecast().getForecastday().size();
+            return forecastWeatherLocal == null ? 0 : forecastWeatherLocal.getForecast().getForecastday().size();
         }
     }
 
@@ -52,7 +55,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
 
     private static final String API_KEY = "d4519a74853143c4be9121220191102";
     private Scheduler mainThreadScheduler;
-    private ForecastWeather forecastWeather;
+    private ForecastWeather forecastWeatherLocal;
 
     public ForecastListPresenter forecastListPresenter = new ForecastListPresenter();
 
@@ -72,15 +75,34 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         forecastWeatherRepo.getCurrentWeather(apiKey, cityName, lang, day)
                 .observeOn(mainThreadScheduler)
                 .subscribe(forecastWeather -> {
-                    this.forecastWeather = forecastWeather;
-                    getViewState().setCityName(forecastWeather.getLocation().getName());
-                    getViewState().setTempC("" + forecastWeather.getCurrent().getTempC());
-                    getViewState().setConditionWeather(forecastWeather.getCurrent().getCondition().getText());
+                    conversionData(forecastWeather);
                     getViewState().hideLoading();
                 }, throwable -> {
                     Timber.d(throwable, "Failed to get user");
                     getViewState().hideLoading();
                     getViewState().showError(throwable.getMessage());
                 });
+    }
+
+    private void conversionData(ForecastWeather forecastWeather){
+        //ToDo: посмотреть что можно сделать с этой кашей
+        int tempC = forecastWeather.getCurrent().getTempC().intValue();
+
+        double windKph = forecastWeather.getCurrent().getWindKph();
+        windKph = windKph*1000/3600;
+        BigDecimal bd = new BigDecimal(windKph).setScale(1, RoundingMode.HALF_EVEN);
+
+        int pressure = (int)(forecastWeather.getCurrent().getPressureMb() * 0.75);
+
+        getViewState().showAAdditionalWeatherData(
+                bd.toString(),
+                pressure,
+                forecastWeather.getCurrent().getHumidity().toString(),
+                forecastWeather.getCurrent().getCloud().toString());
+        getViewState().showCurrentWeatherData(forecastWeather.getLocation().getName(),
+                tempC,
+                forecastWeather.getCurrent().getFeelslikeC(),
+                forecastWeather.getCurrent().getCondition().getText());
+
     }
 }

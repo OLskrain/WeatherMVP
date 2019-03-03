@@ -1,7 +1,14 @@
 <resources>
-    <!--ТО ЧТО НАДО ПЕРЕВОДИТЬ-->
     <string name="app_name">WeatherMVP</string>
+    <!--Навигация-->
     <string name="title_home">Home</string>
     <string name="title_places">Places</string>
     <string name="title_other">Other</string>
+
+    <!--Погода-->
+    <string name="degree">&#176;</string>
+    <string name="feels_like">Feels like</string>
+    <string name="percent">%</string>
+    <string name="wind_speed">m/s</string>
+    <string name="pressure">mm Hg</string>
 </resources>

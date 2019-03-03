@@ -30,7 +30,7 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class MainActivity extends MvpAppCompatActivity implements ActivityView {
+public class  MainActivity extends MvpAppCompatActivity implements ActivityView {
 
     @BindView(R.id.navigation)
     BottomNavigationView navigation;

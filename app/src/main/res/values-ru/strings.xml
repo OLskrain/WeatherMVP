@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ПогодаMVP</string>
+    <!--Навигация-->
+    <string name="title_home">Главная</string>
+    <string name="title_places">Места</string>
+    <string name="title_other">Прочее</string>
+
+    <!--Погода-->
+    <string name="degree">&#176;</string>
+    <string name="feels_like">Ощущается как:</string>
+    <string name="percent">%</string>
+    <string name="wind_speed">м/с</string>
+    <string name="pressure">мм рт.ст.</string>
+</resources>

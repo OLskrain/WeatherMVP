@@ -3,7 +3,11 @@ package com.example.olskr.weathermvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -21,12 +28,12 @@ import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
@@ -39,8 +46,19 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return fragment;
     }
 
-    @BindView(R.id.toolbar_hf)
-    Toolbar toolbarHome;
+    @BindView(R.id.toolbar_hf) Toolbar toolbarHome;
+    @BindView(R.id.rv_forecast_10) RecyclerView forecastRecyclerView;
+    @BindView(R.id.loadingProgressBar) ProgressBar loadingProgressBar;
+    @BindView(R.id.collapsing_toolbar_hf) CollapsingToolbarLayout collapsingToolbarHf;
+
+    @BindView(R.id.temp_с) TextView tempC;
+    @BindView(R.id.text_weather) TextView textWeather;
+    @BindView(R.id.feels_like_c) TextView feelsLikeC;
+    @BindView(R.id.wind_kph) TextView windKph;
+    @BindView(R.id.pressure_mb) TextView pressure;
+    @BindView(R.id.humidity) TextView humidity;
+    @BindView(R.id.fog) TextView fog;
+    @BindView(R.id.image_weather) ImageView imageWeather;
 
     @InjectPresenter
     HomePresenter homePresenter;
@@ -64,11 +82,10 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
             ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbarHome);
         }
 
-//        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-//
-//        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
-//        forecastRecyclerView.setAdapter(adapter);
+        forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
+        forecastRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -98,6 +115,21 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
         return homePresenter;
     }
 
+    @Override
+    public void showCurrentWeatherData(String cityName, int tempC, double feelsLikeC, String textWeather) {
+        collapsingToolbarHf.setTitle(cityName);
+        this.tempC.setText(String.format("%s%s", tempC, getResources().getString(R.string.degree)));
+        this.feelsLikeC.setText(String.format("%s %s", getResources().getString(R.string.feels_like), feelsLikeC));
+        this.textWeather.setText(textWeather);
+    }
+
+    @Override
+    public void showAAdditionalWeatherData(String windKph, int pressure, String humidity, String fog) {
+        this.windKph.setText(String.format("%s %s", windKph, getResources().getString(R.string.wind_speed)));
+        this.pressure.setText(String.format("%s %s", pressure, getResources().getString(R.string.pressure)));
+        this.humidity.setText(String.format("%s%s", humidity, getResources().getString(R.string.percent)));
+        this.fog.setText(String.format("%s%s", fog, getResources().getString(R.string.percent)));
+    }
 
     @Override
     public void showIcon(String IconUrl) {
@@ -110,27 +142,12 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void setCityName(String cityName) {
-        //this.cityName.setText(cityName);
-    }
-
-    @Override
-    public void setTempC(String tempC) {
-        //this.tempC.setText(tempC);
-    }
-
-    @Override
-    public void setConditionWeather(String conditionWeather) {
-        //details.setText(conditionWeather);
-    }
-
-    @Override
     public void showLoading() {
-        //loadingProgressBar.setVisibility(View.VISIBLE);
+        loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-        //loadingProgressBar.setVisibility(View.GONE);
+        loadingProgressBar.setVisibility(View.GONE);
     }
 }
