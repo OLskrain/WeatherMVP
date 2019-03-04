@@ -12,14 +12,24 @@ public class RoomForecastWeather {
     private String cityName;
     private Double tempC;
     private String conditionWeather;
+    private String avatarUrl;
 
     public RoomForecastWeather() {
     }
 
-    public RoomForecastWeather(@NonNull String country, Double tempC, String conditionWeather) {
+    public RoomForecastWeather(@NonNull String country, Double tempC, String conditionWeather, String avatarUrl) {
         this.cityName = country;
         this.tempC = tempC;
         this.conditionWeather = conditionWeather;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public Double getTempC() {

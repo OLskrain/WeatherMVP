@@ -1,12 +1,8 @@
 package com.example.olskr.weathermvp.mvp.model.cache;
 
-
-
-
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastWeather;
 
 import io.reactivex.Single;
-
 
 public interface ICache { //интерфейс кеша
     void putForecastWeather(ForecastWeather forecastWeather);

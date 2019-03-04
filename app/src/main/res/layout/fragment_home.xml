@@ -75,7 +75,6 @@
                     android:id="@+id/image_weather"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:src="@drawable/ic_wb_cloudy_black_24dp"
                     app:layout_constraintBottom_toBottomOf="@+id/temp_с"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"

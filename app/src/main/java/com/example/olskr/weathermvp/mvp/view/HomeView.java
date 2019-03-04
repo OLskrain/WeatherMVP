@@ -13,9 +13,9 @@ public interface HomeView extends MvpView {
 
     void showCurrentWeatherData(String cityName, int tempC, double feelsLike, String textWeather);
 
-    void showAAdditionalWeatherData(String wind, int pressure, String humidity, String fog);
+    void showAdditionalWeatherData(String wind, int pressure, String humidity, String fog);
 
-    void showIcon(String IconUrl);
+    void showIcon(String iconUrl);
 
     void showError(String message);
 

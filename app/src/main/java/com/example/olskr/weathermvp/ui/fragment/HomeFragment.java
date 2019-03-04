@@ -24,12 +24,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.olskr.weathermvp.App;
 import com.example.olskr.weathermvp.R;
+import com.example.olskr.weathermvp.mvp.model.image.ImageLoader;
 import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,10 +68,14 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
     ForecastRVAdapter adapter;
 
+    @Inject
+    ImageLoader<ImageView> imageLoader;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
+        App.getInstance().getAppComponent().inject(this);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
@@ -124,7 +131,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void showAAdditionalWeatherData(String windKph, int pressure, String humidity, String fog) {
+    public void showAdditionalWeatherData(String windKph, int pressure, String humidity, String fog) {
         this.windKph.setText(String.format("%s %s", windKph, getResources().getString(R.string.wind_speed)));
         this.pressure.setText(String.format("%s %s", pressure, getResources().getString(R.string.pressure)));
         this.humidity.setText(String.format("%s%s", humidity, getResources().getString(R.string.percent)));
@@ -132,8 +139,8 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void showIcon(String IconUrl) {
-        //ToDo: заменить текст на иконку
+    public void showIcon(String iconUrl) {
+        imageLoader.loadInto(iconUrl, imageWeather);
     }
 
     @Override

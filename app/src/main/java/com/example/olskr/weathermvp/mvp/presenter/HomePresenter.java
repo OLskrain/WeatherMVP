@@ -13,7 +13,6 @@ import com.example.olskr.weathermvp.mvp.view.item.ForecastItemView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 import javax.inject.Inject;
 
@@ -37,21 +36,20 @@ public class HomePresenter extends MvpPresenter<HomeView> {
             //здесь вся лоика
             //Repository repository = user.getRepos().get(view.getPos());  //код , который наполняет строку
             ForecastDay forecastDay = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
-
             view.setTitle(forecastDay.getDate());
-
         }
 
         @Override
         public int getForecastCount() {
-           // return user == null || user.getRepos() == null ? 0 : user.getRepos().size();
+            // return user == null || user.getRepos() == null ? 0 : user.getRepos().size();
             return forecastWeatherLocal == null ? 0 : forecastWeatherLocal.getForecast().getForecastday().size();
         }
     }
 
     @Inject
     ForecastWeatherRepo forecastWeatherRepo;
-    @Inject Router router;
+    @Inject
+    Router router;
 
     private static final String API_KEY = "d4519a74853143c4be9121220191102";
     private Scheduler mainThreadScheduler;
@@ -66,7 +64,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        loadInfo(API_KEY, "London", "ru", 10);
+        loadInfo(API_KEY, "Moscow", "ru", 10);
     }
 
     @SuppressLint("CheckResult")
@@ -78,23 +76,23 @@ public class HomePresenter extends MvpPresenter<HomeView> {
                     conversionData(forecastWeather);
                     getViewState().hideLoading();
                 }, throwable -> {
-                    Timber.d(throwable, "Failed to get user");
+                    Timber.d(throwable, "Failed to get forecast weather");
                     getViewState().hideLoading();
                     getViewState().showError(throwable.getMessage());
                 });
     }
 
-    private void conversionData(ForecastWeather forecastWeather){
+    private void conversionData(ForecastWeather forecastWeather) {
         //ToDo: посмотреть что можно сделать с этой кашей
         int tempC = forecastWeather.getCurrent().getTempC().intValue();
 
         double windKph = forecastWeather.getCurrent().getWindKph();
-        windKph = windKph*1000/3600;
+        windKph = windKph * 1000 / 3600;
         BigDecimal bd = new BigDecimal(windKph).setScale(1, RoundingMode.HALF_EVEN);
 
-        int pressure = (int)(forecastWeather.getCurrent().getPressureMb() * 0.75);
+        int pressure = (int) (forecastWeather.getCurrent().getPressureMb() * 0.75);
 
-        getViewState().showAAdditionalWeatherData(
+        getViewState().showAdditionalWeatherData(
                 bd.toString(),
                 pressure,
                 forecastWeather.getCurrent().getHumidity().toString(),
@@ -103,6 +101,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
                 tempC,
                 forecastWeather.getCurrent().getFeelslikeC(),
                 forecastWeather.getCurrent().getCondition().getText());
+        getViewState().showIcon("https:" + forecastWeather.getCurrent().getCondition().getIcon());
 
     }
 }

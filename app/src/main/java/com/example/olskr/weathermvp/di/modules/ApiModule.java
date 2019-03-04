@@ -26,7 +26,7 @@ public class ApiModule {
     }
 
     @Provides
-    public OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor){
+    public OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor) //прикрутили Interceptor
                 .build();
@@ -34,8 +34,8 @@ public class ApiModule {
 
     @Provides
     //реализация iDataSource. (12)@Named("baseUrlProd")
-    public IDataSource iDataSource(Gson gson, @Named("baseUrlProd") String baseUrl){
-       return new Retrofit.Builder()
+    public IDataSource iDataSource(Gson gson, @Named("baseUrlProd") String baseUrl) {
+        return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson)) //Наш gson прилетает сюда из метода ниже
@@ -50,7 +50,7 @@ public class ApiModule {
 
     @Provides
     //Interceptor - перехватывает запрос и передаем нам, чтобы мы могли что то с ним делать
-    public HttpLoggingInterceptor loggingInterceptor(){ //один из готовых - логирует
+    public HttpLoggingInterceptor loggingInterceptor() { //один из готовых - логирует
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //разные уровни логирования
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

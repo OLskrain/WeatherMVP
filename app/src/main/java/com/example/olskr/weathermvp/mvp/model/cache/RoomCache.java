@@ -1,6 +1,5 @@
 package com.example.olskr.weathermvp.mvp.model.cache;
 
-
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Condition;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.Current;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastWeather;
@@ -23,6 +22,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
         }
 
         roomForecastWeather.setTempC(forecastWeather.getCurrent().getTempC()); //обновляем температуру
+        roomForecastWeather.setAvatarUrl(forecastWeather.getCurrent().getCondition().getIcon());
         roomForecastWeather.setConditionWeather(forecastWeather.getCurrent().getCondition().getText());
         //roomForecastWeather.setReposUrl(user.getReposUrl()); //обновляем репозиторйи
 
@@ -37,7 +37,7 @@ public class RoomCache implements ICache { //Рум кеш для данных �
                     .findByCityName(cityName);
 
             if (roomForecastWeather == null) { //если пользователя нет в кеше
-                emitter.onError(new RuntimeException("No such user in cache")); //кидаем ошибку
+                emitter.onError(new RuntimeException("No such forecast weather in cache")); //кидаем ошибку
             } else { //если он есть в кеше. то делаем  юзера, наполняя его из roomUsera - т.е из кеша
                 emitter.onSuccess(new ForecastWeather(new Location(roomForecastWeather.getCityName())
                         , new Current(roomForecastWeather.getTempC(), new Condition(roomForecastWeather.getConditionWeather()))));

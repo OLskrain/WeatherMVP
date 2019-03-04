@@ -17,7 +17,7 @@ import timber.log.Timber;
 public class ImageCache { //кеш картинки на Realm
     private static final String IMAGE_FOLDER_NAME = "image";
 
-    public static File getFile(String url) {
+    public File getFile(String url) {
         //делаем запрос по url и берем первый
         CachedImage cachedImage = Realm.getDefaultInstance().where(CachedImage.class).equalTo("url", url).findFirst();
 
@@ -27,16 +27,16 @@ public class ImageCache { //кеш картинки на Realm
         return null;
     }
 
-    public static boolean contains(String url) { //проверяем сть ли там вообще картинка по url
+    public boolean contains(String url) { //проверяем сть ли там вообще картинка по url
         return Realm.getDefaultInstance().where(CachedImage.class).equalTo("url", url).count() > 0;
     }
 
-    public static void clear() { //очистить кеш
+    public void clear() { //очистить кеш
         Realm.getDefaultInstance().executeTransaction(realm -> realm.delete(CachedImage.class));
         deleteFileOrDirRecursive(getImageDir());
     }
 
-    public static File saveImage(final String url, Bitmap bitmap) { //сохрашение картинки
+    public File saveImage(final String url, Bitmap bitmap) { //сохрашение картинки
         if (!getImageDir().exists() && !getImageDir().mkdirs()) { //смотрим есть ли путь к картинки, если нет создаем
             throw new RuntimeException("Failed to create directory: " + getImageDir().toString()); //если нет и не создать, но кидаем ошибку
         }
@@ -66,11 +66,11 @@ public class ImageCache { //кеш картинки на Realm
         return imageFile;
     }
 
-    public static File getImageDir() { //куда класть картинки
+    public File getImageDir() { //куда класть картинки
         return new File(App.getInstance().getExternalFilesDir(null) + "/" + IMAGE_FOLDER_NAME);
     }
 
-    public static String SHA1(String s) {
+    public String SHA1(String s) {
         MessageDigest m = null;
 
         try {
@@ -84,11 +84,11 @@ public class ImageCache { //кеш картинки на Realm
         return hash;
     }
 
-    public static float getSizeKb() { //чтобы посчитать размер всего кеша
+    public float getSizeKb() { //чтобы посчитать размер всего кеша
         return getFileOrDirSize(getImageDir()) / 1024f;
     }
 
-    public static void deleteFileOrDirRecursive(File fileOrDirectory) { //рекурсивное удаление файла
+    public void deleteFileOrDirRecursive(File fileOrDirectory) { //рекурсивное удаление файла
         if (fileOrDirectory.isDirectory()) {
             for (File child : fileOrDirectory.listFiles()) {
                 deleteFileOrDirRecursive(child);
@@ -97,7 +97,7 @@ public class ImageCache { //кеш картинки на Realm
         fileOrDirectory.delete();
     }
 
-    public static long getFileOrDirSize(File f) { //получить размер кеша
+    public long getFileOrDirSize(File f) { //получить размер кеша
         long size = 0;
         if (f.isDirectory()) {
             for (File file : f.listFiles()) {

@@ -1,6 +1,5 @@
 package com.example.olskr.weathermvp.mvp.model.entity.realm;
 
-
 import io.realm.RealmObject;
 
 public class CachedImage extends RealmObject {

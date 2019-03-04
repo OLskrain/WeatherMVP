@@ -17,12 +17,18 @@ import timber.log.Timber;
 
 public class ImageLoaderGlide implements ImageLoader<ImageView> {
 
+    private ImageCache cache;
+
+    public ImageLoaderGlide(ImageCache cache) {
+        this.cache = cache;
+    }
+
     @Override
     //здесь не обязательно самим прописывать действия и кешироавания. можно использовать кеш glide
     public void loadInto(@Nullable String url, ImageView container) {
         if (NetworkStatus.isOnline()) {
             //благодаря модулю можем GlideModule, можем использовать расширенные возможности Glide
-            Glide.with(container.getContext()).asBitmap().load(url).listener(new RequestListener<Bitmap>() {
+            GlideApp.with(container.getContext()).asBitmap().load(url).listener(new RequestListener<Bitmap>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                     Timber.e(e, "Image load failed");
@@ -32,15 +38,15 @@ public class ImageLoaderGlide implements ImageLoader<ImageView> {
                 @Override
                 public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                     //сюда приехал наш bitmap
-                    ImageCache.saveImage(url, resource);//сохранили
+                    cache.saveImage(url, resource);//сохранили
                     return false;
                 }
             }).into(container);
         } else {
             //если не онлайн
-            if (ImageCache.contains(url)) {
-                Glide.with(container.getContext())
-                        .load(ImageCache.getFile(url))
+            if (cache.contains(url)) {
+                GlideApp.with(container.getContext())
+                        .load(cache.getFile(url))
                         .into(container);
             }
         }

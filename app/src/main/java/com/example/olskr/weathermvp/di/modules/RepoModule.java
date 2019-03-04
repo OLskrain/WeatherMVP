@@ -9,14 +9,14 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module(includes = {ApiModule.class, CacheModule.class})
 public class RepoModule {
 
     @Singleton //Dagger будет хранить только один
     @Provides
     //здесь нам нужен ICache. и внутри Dagger мы его можем получить без @Inject, так как мы добавили в
     //AppComponent соответствующий модуль CacheModule. В других местах (вне Dagger) нам нажно прописывать аннотацию
-    public ForecastWeatherRepo usersRepo(ICache cache, IDataSource dataSource) {
+    public ForecastWeatherRepo forecastWeatherRepo(ICache cache, IDataSource dataSource) {
         return new ForecastWeatherRepo(cache, dataSource);
     }
 
