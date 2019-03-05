@@ -140,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text=""
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/image_wind_kph"
                     app:layout_constraintStart_toEndOf="@+id/image_wind_kph"
                     app:layout_constraintTop_toTopOf="@+id/image_wind_kph" />
@@ -188,6 +189,18 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.6" />
 
+                <ImageView
+                    android:id="@+id/wind_dir"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp"
+                    android:rotation="0"
+                    android:src="@drawable/ic_compass_24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wind_kph"
+                    app:layout_constraintDimensionRatio="0.6:1"
+                    app:layout_constraintStart_toEndOf="@+id/wind_kph"
+                    app:layout_constraintTop_toTopOf="@+id/wind_kph" />
+
             </android.support.constraint.ConstraintLayout>
 
             <android.support.v7.widget.Toolbar
@@ -211,7 +224,7 @@
         android:id="@+id/rv_forecast_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="2dp"
+        android:padding="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

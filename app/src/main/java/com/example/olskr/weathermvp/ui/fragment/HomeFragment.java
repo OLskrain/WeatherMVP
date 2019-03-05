@@ -1,5 +1,6 @@
 package com.example.olskr.weathermvp.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +30,6 @@ import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
 import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
 
-import java.text.DecimalFormat;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -62,6 +62,8 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     @BindView(R.id.humidity) TextView humidity;
     @BindView(R.id.fog) TextView fog;
     @BindView(R.id.image_weather) ImageView imageWeather;
+    @BindView(R.id.wind_dir)
+    ImageView imageWindDir;
 
     @InjectPresenter
     HomePresenter homePresenter;
@@ -131,11 +133,18 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void showAdditionalWeatherData(String windKph, int pressure, String humidity, String fog) {
-        this.windKph.setText(String.format("%s %s", windKph, getResources().getString(R.string.wind_speed)));
+    public void showAdditionalWeatherData(String windKph, String windDir, float angle, int pressure, String humidity, String fog) {
+        imageWindDir.setRotation(angle);
+        imageWindDir.getDrawable().mutate().setColorFilter(this.windKph.getCurrentTextColor(), PorterDuff.Mode.DST);
+        this.windKph.setText(String.format("%s %s, %S", windKph, getResources().getString(R.string.wind_speed), windDir));
         this.pressure.setText(String.format("%s %s", pressure, getResources().getString(R.string.pressure)));
         this.humidity.setText(String.format("%s%s", humidity, getResources().getString(R.string.percent)));
         this.fog.setText(String.format("%s%s", fog, getResources().getString(R.string.percent)));
+    }
+
+    @Override
+    public void showForecastWeatherList(String date) {
+        adapter.notifyDataSetChanged();
     }
 
     @Override

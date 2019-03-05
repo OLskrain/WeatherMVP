@@ -73,6 +73,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         forecastWeatherRepo.getCurrentWeather(apiKey, cityName, lang, day)
                 .observeOn(mainThreadScheduler)
                 .subscribe(forecastWeather -> {
+                    this.forecastWeatherLocal = forecastWeather;
                     conversionData(forecastWeather);
                     getViewState().hideLoading();
                 }, throwable -> {
@@ -92,8 +93,37 @@ public class HomePresenter extends MvpPresenter<HomeView> {
 
         int pressure = (int) (forecastWeather.getCurrent().getPressureMb() * 0.75);
 
+        String compass = forecastWeather.getCurrent().getWindDir();
+        float angle;
+        if (compass.equals("NNE") || compass.equals("NE") || compass.equals("ENE")) {
+            angle = 45;
+        } else if (compass.equals("ESE") || compass.equals("SE") || compass.equals("SSE")) {
+            angle = 135;
+        } else if (compass.equals("SSW") || compass.equals("SW") || compass.equals("WSW")) {
+            angle = 225;
+        } else if (compass.equals("WNW") || compass.equals("NW") || compass.equals("NNW")) {
+            angle = 315;
+        } else if (compass.equals("E") || compass.equals("S") || compass.equals("W")) {
+            switch (compass) {
+                case "E":
+                    angle = 90;
+                    break;
+                case "S":
+                    angle = 180;
+                    break;
+                case "W":
+                    angle = 270;
+                    break;
+                default:
+                    angle = 0;
+                    break;
+            }
+        } else angle = 0;
+
         getViewState().showAdditionalWeatherData(
                 bd.toString(),
+                forecastWeather.getCurrent().getWindDir(),
+                angle,
                 pressure,
                 forecastWeather.getCurrent().getHumidity().toString(),
                 forecastWeather.getCurrent().getCloud().toString());
@@ -101,6 +131,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
                 tempC,
                 forecastWeather.getCurrent().getFeelslikeC(),
                 forecastWeather.getCurrent().getCondition().getText());
+        getViewState().showForecastWeatherList(forecastWeather.getCurrent().getCondition().getText());
         getViewState().showIcon("https:" + forecastWeather.getCurrent().getCondition().getIcon());
 
     }
