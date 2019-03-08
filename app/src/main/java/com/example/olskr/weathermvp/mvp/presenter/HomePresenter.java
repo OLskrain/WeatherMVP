@@ -7,14 +7,12 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastDay;
 import com.example.olskr.weathermvp.mvp.model.entity.apixu.forecast.ForecastWeather;
 import com.example.olskr.weathermvp.mvp.model.repo.ForecastWeatherRepo;
-import com.example.olskr.weathermvp.mvp.presenter.list.IForecastListPresenter;
+import com.example.olskr.weathermvp.mvp.presenter.list.IDayOfWeekListPresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
-import com.example.olskr.weathermvp.mvp.view.item.ForecastItemView;
+import com.example.olskr.weathermvp.mvp.view.item.DayOfWeekItemView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.inject.Inject;
@@ -27,16 +25,16 @@ import timber.log.Timber;
 @InjectViewState
 public class HomePresenter extends MvpPresenter<HomeView> {
 
-    public class ForecastListPresenter implements IForecastListPresenter { //презентер для списка
-        PublishSubject<ForecastItemView> clickSubject = PublishSubject.create();
+    public class DayOfWeekListPresenter implements IDayOfWeekListPresenter { //презентер для списка
+        PublishSubject<DayOfWeekItemView> clickSubject = PublishSubject.create();
 
         @Override
-        public PublishSubject<ForecastItemView> getClickSubject() {
+        public PublishSubject<DayOfWeekItemView> getClickSubject() {
             return clickSubject;
         }
 
         @Override
-        public void bindView(ForecastItemView view) {
+        public void bindView(DayOfWeekItemView view) {
             //здесь вся лоика
             //Repository repository = user.getRepos().get(view.getPos());  //код , который наполняет строку
             ForecastDay forecastDate = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
@@ -52,12 +50,12 @@ public class HomePresenter extends MvpPresenter<HomeView> {
             c.set(year,month-1,day);
             int dayOfWeek = c.get(GregorianCalendar.DAY_OF_WEEK);
 
-            view.showForecastWeatherData(forecastDate.getDate(), dayOfWeek, maxTempC, minTempC);
-            view.showImageForecastWeather("https:" + iconUrl.getDay().getCondition().getIcon());
+            view.showDayWeatherData(forecastDate.getDate(), dayOfWeek, maxTempC, minTempC);
+            view.showImageDayWeather("https:" + iconUrl.getDay().getCondition().getIcon());
         }
 
         @Override
-        public int getForecastCount() {
+        public int getDayCount() {
             // return user == null || user.getRepos() == null ? 0 : user.getRepos().size();
             return forecastWeatherLocal == null ? 0 : forecastWeatherLocal.getForecast().getForecastday().size();
         }
@@ -72,7 +70,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     private Scheduler mainThreadScheduler;
     private ForecastWeather forecastWeatherLocal;
 
-    public ForecastListPresenter forecastListPresenter = new ForecastListPresenter();
+    public DayOfWeekListPresenter forecastListPresenter = new DayOfWeekListPresenter();
 
     public HomePresenter(Scheduler mainThreadScheduler) {
         this.mainThreadScheduler = mainThreadScheduler;
@@ -148,7 +146,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
                 forecastWeather.getCurrent().getCondition().getText());
 
         getViewState().showForecastWeatherList(forecastWeather.getCurrent().getCondition().getText());
-        getViewState().showImageWeather("https:" + forecastWeather.getCurrent().getCondition().getIcon());
+        getViewState().showImageDayWeather("https:" + forecastWeather.getCurrent().getCondition().getIcon());
 
     }
 }

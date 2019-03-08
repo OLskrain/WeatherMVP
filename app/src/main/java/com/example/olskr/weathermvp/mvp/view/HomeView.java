@@ -14,7 +14,7 @@ public interface HomeView extends MvpView {
 
     void showForecastWeatherList(String date);
 
-    void showImageWeather(String iconUrl);
+    void showImageDayWeather(String iconUrl);
 
     void showError(String message);
 

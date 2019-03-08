@@ -1,7 +1,7 @@
 package com.example.olskr.weathermvp.mvp.view.item;
 
 
-public interface ForecastItemView {
+public interface HourOfDayItemView {
     int getPos();
 
     void showForecastWeatherData(String forecastDate, int dayOfWeek, int maxTempC, int minTempC);

@@ -1,6 +1,5 @@
 package com.example.olskr.weathermvp.ui.adapter;
 
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,16 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.example.olskr.weathermvp.App;
 import com.example.olskr.weathermvp.R;
 import com.example.olskr.weathermvp.mvp.model.image.ImageLoader;
-import com.example.olskr.weathermvp.mvp.presenter.list.IForecastListPresenter;
-import com.example.olskr.weathermvp.mvp.view.item.ForecastItemView;
+import com.example.olskr.weathermvp.mvp.presenter.list.IDayOfWeekListPresenter;
+import com.example.olskr.weathermvp.mvp.view.item.DayOfWeekItemView;
 import com.jakewharton.rxbinding2.view.RxView;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -28,17 +23,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ForecastRVAdapter extends RecyclerView.Adapter<ForecastRVAdapter.ViewHolder> { //адаптер для Recycle
-    IForecastListPresenter presenter;
+public class DayOfWeekRVAdapter extends RecyclerView.Adapter<DayOfWeekRVAdapter.ViewHolder> { //адаптер для Recycle
+    IDayOfWeekListPresenter presenter;
 
-    public ForecastRVAdapter(IForecastListPresenter presenter) {
+    public DayOfWeekRVAdapter(IDayOfWeekListPresenter presenter) {
         this.presenter = presenter;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_forecast, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_day_of_weekt, parent, false));
     }
 
     @Override
@@ -51,10 +46,10 @@ public class ForecastRVAdapter extends RecyclerView.Adapter<ForecastRVAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return presenter.getForecastCount();
+        return presenter.getDayCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements ForecastItemView {
+    public class ViewHolder extends RecyclerView.ViewHolder implements DayOfWeekItemView {
         int pos = 0;
 
         @Inject
@@ -88,7 +83,7 @@ public class ForecastRVAdapter extends RecyclerView.Adapter<ForecastRVAdapter.Vi
         }
 
         @Override
-        public void showForecastWeatherData(String forecastDate, int dayOfWeek, int maxTempC, int minTempC) {
+        public void showDayWeatherData(String forecastDate, int dayOfWeek, int maxTempC, int minTempC) {
             this.forecastDate.setText(forecastDate);
             this.dayOfWeek.setText(chooseDay(dayOfWeek));
             this.maxTempC.setText(String.format("%s%s", maxTempC, degree));
@@ -106,7 +101,7 @@ public class ForecastRVAdapter extends RecyclerView.Adapter<ForecastRVAdapter.Vi
         }
 
         @Override
-        public void showImageForecastWeather(String iconUrl) {
+        public void showImageDayWeather(String iconUrl) {
             imageLoader.loadInto(iconUrl, imageForecastWeather);
         }
     }

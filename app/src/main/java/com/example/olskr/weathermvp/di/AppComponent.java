@@ -10,9 +10,8 @@ import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.presenter.OtherPresenter;
 import com.example.olskr.weathermvp.mvp.presenter.PlacesPresenter;
 import com.example.olskr.weathermvp.ui.activity.MainActivity;
-import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
+import com.example.olskr.weathermvp.ui.adapter.DayOfWeekRVAdapter;
 import com.example.olskr.weathermvp.ui.fragment.HomeFragment;
-import com.example.olskr.weathermvp.ui.fragment.OtherFragment;
 
 import javax.inject.Singleton;
 
@@ -34,5 +33,5 @@ public interface AppComponent {
     void inject(OtherPresenter otherPresenter);
     void inject(MainActivity mainActivity);
     void inject(HomeFragment homeFragment);
-    void inject(ForecastRVAdapter.ViewHolder viewHolder);
+    void inject(DayOfWeekRVAdapter.ViewHolder viewHolder);
 }

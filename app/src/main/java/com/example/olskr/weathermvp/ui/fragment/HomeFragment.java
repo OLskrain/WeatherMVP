@@ -28,7 +28,7 @@ import com.example.olskr.weathermvp.R;
 import com.example.olskr.weathermvp.mvp.model.image.ImageLoader;
 import com.example.olskr.weathermvp.mvp.presenter.HomePresenter;
 import com.example.olskr.weathermvp.mvp.view.HomeView;
-import com.example.olskr.weathermvp.ui.adapter.ForecastRVAdapter;
+import com.example.olskr.weathermvp.ui.adapter.DayOfWeekRVAdapter;
 
 import java.util.Objects;
 
@@ -37,7 +37,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
@@ -68,7 +67,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     @InjectPresenter
     HomePresenter homePresenter;
 
-    ForecastRVAdapter adapter;
+    DayOfWeekRVAdapter adapter;
 
     @Inject
     ImageLoader<ImageView> imageLoader;
@@ -93,7 +92,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
 
         forecastRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         forecastRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        adapter = new ForecastRVAdapter(homePresenter.forecastListPresenter);
+        adapter = new DayOfWeekRVAdapter(homePresenter.forecastListPresenter);
         forecastRecyclerView.setAdapter(adapter);
     }
 
@@ -148,7 +147,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void showImageWeather(String iconUrl) {
+    public void showImageDayWeather(String iconUrl) {
         imageLoader.loadInto(iconUrl, imageWeather);
     }
 
