@@ -13,6 +13,9 @@ import com.example.olskr.weathermvp.mvp.view.item.ForecastItemView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.inject.Inject;
 
@@ -23,6 +26,7 @@ import timber.log.Timber;
 
 @InjectViewState
 public class HomePresenter extends MvpPresenter<HomeView> {
+
     public class ForecastListPresenter implements IForecastListPresenter { //презентер для списка
         PublishSubject<ForecastItemView> clickSubject = PublishSubject.create();
 
@@ -35,8 +39,21 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         public void bindView(ForecastItemView view) {
             //здесь вся лоика
             //Repository repository = user.getRepos().get(view.getPos());  //код , который наполняет строку
-            ForecastDay forecastDay = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
-            view.setTitle(forecastDay.getDate());
+            ForecastDay forecastDate = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
+            int maxTempC = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos()).getDay().getMaxtempC().intValue();
+            int minTempC = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos()).getDay().getMintempC().intValue();
+            ForecastDay iconUrl = forecastWeatherLocal.getForecast().getForecastday().get(view.getPos());
+
+            GregorianCalendar c = new GregorianCalendar();
+            int year = Integer.parseInt(forecastDate.getDate().substring(0,4));
+            int month = Integer.parseInt(forecastDate.getDate().substring(5,7));
+            int day = Integer.parseInt(forecastDate.getDate().substring(8,10));
+
+            c.set(year,month-1,day);
+            int dayOfWeek = c.get(GregorianCalendar.DAY_OF_WEEK);
+
+            view.showForecastWeatherData(forecastDate.getDate(), dayOfWeek, maxTempC, minTempC);
+            view.showImageForecastWeather("https:" + iconUrl.getDay().getCondition().getIcon());
         }
 
         @Override
@@ -86,7 +103,7 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     private void conversionData(ForecastWeather forecastWeather) {
         //ToDo: посмотреть что можно сделать с этой кашей
         int tempC = forecastWeather.getCurrent().getTempC().intValue();
-
+        int valueFeelsLikeC = forecastWeather.getCurrent().getFeelslikeC().intValue();
         double windKph = forecastWeather.getCurrent().getWindKph();
         windKph = windKph * 1000 / 3600;
         BigDecimal bd = new BigDecimal(windKph).setScale(1, RoundingMode.HALF_EVEN);
@@ -120,19 +137,18 @@ public class HomePresenter extends MvpPresenter<HomeView> {
             }
         } else angle = 0;
 
-        getViewState().showAdditionalWeatherData(
-                bd.toString(),
+        getViewState().showAdditionalWeatherData(bd.toString(),
                 forecastWeather.getCurrent().getWindDir(),
-                angle,
-                pressure,
+                angle, pressure,
                 forecastWeather.getCurrent().getHumidity().toString(),
                 forecastWeather.getCurrent().getCloud().toString());
+
         getViewState().showCurrentWeatherData(forecastWeather.getLocation().getName(),
-                tempC,
-                forecastWeather.getCurrent().getFeelslikeC(),
+                tempC, valueFeelsLikeC,
                 forecastWeather.getCurrent().getCondition().getText());
+
         getViewState().showForecastWeatherList(forecastWeather.getCurrent().getCondition().getText());
-        getViewState().showIcon("https:" + forecastWeather.getCurrent().getCondition().getIcon());
+        getViewState().showImageWeather("https:" + forecastWeather.getCurrent().getCondition().getIcon());
 
     }
 }

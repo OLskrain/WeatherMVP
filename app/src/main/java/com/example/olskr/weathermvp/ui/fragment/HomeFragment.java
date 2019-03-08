@@ -37,6 +37,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 
 public class HomeFragment extends MvpAppCompatFragment implements HomeView {
@@ -55,15 +56,14 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     @BindView(R.id.collapsing_toolbar_hf) CollapsingToolbarLayout collapsingToolbarHf;
 
     @BindView(R.id.temp_с) TextView tempC;
-    @BindView(R.id.text_weather) TextView textWeather;
+    @BindView(R.id.current_text_weather) TextView textWeather;
     @BindView(R.id.feels_like_c) TextView feelsLikeC;
     @BindView(R.id.wind_kph) TextView windKph;
     @BindView(R.id.pressure_mb) TextView pressure;
     @BindView(R.id.humidity) TextView humidity;
     @BindView(R.id.fog) TextView fog;
-    @BindView(R.id.image_weather) ImageView imageWeather;
-    @BindView(R.id.wind_dir)
-    ImageView imageWindDir;
+    @BindView(R.id.image_current_weather) ImageView imageWeather;
+    @BindView(R.id.wind_dir) ImageView imageWindDir;
 
     @InjectPresenter
     HomePresenter homePresenter;
@@ -148,7 +148,7 @@ public class HomeFragment extends MvpAppCompatFragment implements HomeView {
     }
 
     @Override
-    public void showIcon(String iconUrl) {
+    public void showImageWeather(String iconUrl) {
         imageLoader.loadInto(iconUrl, imageWeather);
     }
 
